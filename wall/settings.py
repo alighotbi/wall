@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'account',
     'ads',
     
+    # Third parties
     'rest_framework',
     'rest_framework_simplejwt',
     
@@ -150,3 +151,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5000),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=5000),
 }
+
+PAGINATION_PAGE_SIZE = 5

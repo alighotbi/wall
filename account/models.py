@@ -9,7 +9,7 @@ class User(AbstractBaseUser):
     username = models.CharField(verbose_name=_('username'), max_length=40, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    objects = UserManager
+    objects = UserManager()
     USERNAME_FIELD = 'username'
     
     class Meta:

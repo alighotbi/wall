@@ -31,14 +31,14 @@ class UserManager(BaseUserManager):
         return user
     
     
-def create_superuser(self, username, password=None):
+    def create_superuser(self, username, password=None):
         """
         Creates and saves a superuser with the given username and password.
         """
         user = self.create_user(
             username,
             password=password,
-        )
+            )
         user.is_admin = True
         user.save(using=self._db)
         return user
