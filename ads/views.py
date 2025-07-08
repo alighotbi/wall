@@ -1,15 +1,16 @@
-from rest_framework import status
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 
-from django.shortcuts import get_object_or_404
-
 from .models import Ad
 from .serializers import AdSerializer
 from .pagination import StandardPagination
+
 
 class AdlistView(APIView, StandardPagination):
     # permission_classes = [IsAuthenticated]
@@ -61,3 +62,13 @@ class AdModifyView(APIView):
         ad = Ad.objects.get(publisher=request.user, id=pk)
         ad.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+class AdSearchView(APIView, StandardPagination):
+    
+    def get(self, request):
+        q = request.GET.get('q')
+        queryset = Ad.objects.filter(Q(title=q) | Q(caption=q))
+        result = self.paginate_queryset(queryset, request)
+        serializer = AdSerializer(result, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
